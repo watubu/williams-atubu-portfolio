@@ -1,0 +1,31 @@
+# Tests
+
+## Test 1 - Explore portfolio and primary navigation [sanity]
+Viewport: desktop
+Covers: portfolio rendering, primary navigation, responsive layout, GitHub navigation
+Description: Verifies the portfolio loads correctly and the primary navigation reaches the main sections.
+Steps:
+1. Open the portfolio
+2. Use the primary navigation to visit About, Skills, Projects, Journey, and Contact
+3. Use the GitHub link
+Expected: Each section is reachable without errors and the GitHub link points to the user's GitHub profile.
+
+## Test 2 - Expand project case study
+Viewport: desktop
+Covers: featured projects, project details, case-study expansion
+Description: Verifies a featured project exposes its detailed case-study information without navigating away.
+Steps:
+1. Open the Projects section
+2. Select "View case study" for BetW.AI
+3. Review the expanded project details
+Expected: Problem/purpose, what was built, key features, contribution, and technologies are visible.
+
+## Test 3 - Use mobile navigation and contact form validation
+Viewport: mobile
+Covers: mobile navigation, touch-friendly controls, contact form validation
+Description: Verifies the mobile menu works and required contact fields prevent invalid submission.
+Steps:
+1. Open the portfolio at mobile width
+2. Open and close the navigation menu
+3. Open the contact form and submit it with required fields empty
+Expected: The mobile menu opens/closes cleanly and the browser prevents an invalid form submission.
