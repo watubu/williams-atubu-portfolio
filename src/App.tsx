@@ -56,7 +56,7 @@ function NotFound() {
         <p className="eyebrow">404 / Page not found</p>
         <h1>This page isn't part of the portfolio.</h1>
         <p>
-          The page you're looking for doesn't exist. Return to Williams Atubu's portfolio to explore
+          The page you're looking for doesn't exist. Return to Atubu Agih Williams's portfolio to explore
           software engineering projects, skills and current work.
         </p>
         <a className="button primary" href="./">
@@ -98,6 +98,18 @@ export default function App() {
 
   const submit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const form = new FormData(e.currentTarget);
+    const name = (form.get('name') ?? '').toString().trim();
+    const email = (form.get('email') ?? '').toString().trim();
+    const message = (form.get('message') ?? '').toString().trim();
+
+    const subject = encodeURIComponent(`Portfolio enquiry from ${name || 'Website visitor'}`);
+    const body = encodeURIComponent(
+      `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
+    );
+
+    window.location.href = `mailto:williamsatubu99@gmail.com?subject=${subject}&body=${body}`;
     setSent(true);
     e.currentTarget.reset();
   };
@@ -140,12 +152,11 @@ export default function App() {
             </a>
           ))}
           <a
-            href="#contact"
-            className="nav-cta"
-            onClick={(e) => {
-              e.preventDefault();
-              go('contact');
-            }}
+            href="https://wa.me/07076227645"
+            className="nav-cta nav-whatsapp"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="WhatsApp Atubu Agih Williams"
           >
             Let's Connect <ArrowUpRight size={15} />
           </a>
@@ -176,7 +187,7 @@ export default function App() {
                 Software engineering, built through <em>practice.</em>
               </h1>
               <p className="hero-lede">
-                I'm Williams Atubu, a Software Engineering Fellow in Abuja, Nigeria, building
+                I'm Atubu Agih Williams, a Software Engineering Fellow in Abuja, Nigeria, building
                 practical projects while developing as a Python and Go developer across backend and
                 full-stack systems.
               </p>
@@ -188,9 +199,15 @@ export default function App() {
                 <span>REST APIs</span>
               </div>
               <div className="hero-actions">
-                <button className="button primary" onClick={() => go('projects')}>
-                  View My Work <ArrowUpRight size={17} />
-                </button>
+                <a
+                  className="button primary"
+                  href="https://github.com/watubu"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Visit Atubu Agih Williams on GitHub"
+                >
+                  Visit my work <ArrowUpRight size={17} />
+                </a>
                 <button className="button secondary" onClick={() => go('contact')}>
                   Contact Me <ArrowDownRight size={16} />
                 </button>
@@ -200,14 +217,14 @@ export default function App() {
                   href="https://www.linkedin.com/in/atubu-agih-williams/"
                   target="_blank"
                   rel="noreferrer"
-                  aria-label="Williams Atubu on LinkedIn"
+                  aria-label="Atubu Agih Williams on LinkedIn"
                 >
                   <Linkedin size={18} /> LinkedIn
                 </a>
 
                 <span className="social-divider">·</span>
 
-                <a href="mailto:williamsatubu99@gmail.com" aria-label="Email Williams Atubu">
+                <a href="mailto:williamsatubu99@gmail.com" aria-label="Email Atubu Agih Williams">
                   <Mail size={18} /> Email
                 </a>
               </div>
@@ -552,12 +569,12 @@ export default function App() {
                 </a>
                 <a href="https://www.linkedin.com/in/atubu-agih-williams/" target="_blank" rel="noreferrer">
                   <span className="muted-social">
-                    <Linkedin size={18} /> LinkedIn <small>link coming soon</small>
+                    <Linkedin size={18} /> LinkedIn
                   </span>
                 </a>
-                <a href="mailto:williamsatubu99@gmail.com" aria-label="Email Williams Atubu">
+                <a href="mailto:williamsatubu99@gmail.com" aria-label="Email Atubu Agih Williams">
                   <span className="muted-social">
-                    <Mail size={18} /> Email <small>add address</small>
+                    <Mail size={18} /> Email
                   </span>
                 </a>
               </div>
@@ -595,11 +612,11 @@ export default function App() {
                 />
               </label>
               <button className="button primary" type="submit">
-                {sent ? 'Form checked ✓' : 'Check Message'} <ArrowUpRight size={16} />
+                {sent ? 'Message ready ✓' : 'Send Message'} <ArrowUpRight size={16} />
               </button>
               <small className="form-note" aria-live="polite">
-                This form does not deliver messages yet. Use GitHub to contact me until an email
-                service is connected.
+                Your email app will open with the message ready to send to
+                williamsatubu99@gmail.com.
               </small>
             </form>
           </div>
@@ -608,19 +625,22 @@ export default function App() {
 
       <footer aria-label="Site footer">
         <div>
-          <a className="brand" href="#home" aria-label="Williams Atubu — back to home">
+          <a className="brand" href="#home" aria-label="Atubu Agih Williams — back to home">
             WA<span>.</span>
           </a>
-          <p>Williams Atubu · Software Engineering Fellow</p>
+          <p>Atubu Agih Williams · Software Engineering</p>
         </div>
         <div className="footer-right">
           <a href="https://github.com/watubu" target="_blank" rel="noreferrer">
             GitHub
           </a>
-          <a href="https://www.linkedin.com/in/atubu-agih-williams/" target="_blank" rel="noreferrer">
-            <span>LinkedIn · coming soon</span>
+          <a href="https://wa.me/07076227645" target="_blank" rel="noreferrer">
+            WhatsApp
           </a>
-          <span>© 2026 Williams Atubu</span>
+          <a href="https://www.linkedin.com/in/atubu-agih-williams/" target="_blank" rel="noreferrer">
+            <span>LinkedIn ·</span>
+          </a>
+          <span>© 2026 Atubu Agih Williams</span>
         </div>
       </footer>
     </div>
