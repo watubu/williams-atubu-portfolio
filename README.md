@@ -16,6 +16,10 @@ npm run build
 npm run preview
 ```
 
+## Contact form email
+
+The contact form sends submissions to `williamsatubu99@gmail.com` through FormSubmit. On the first submission, confirm the activation email FormSubmit sends to that inbox; submissions can be delivered after the recipient is activated.
+
 ## Main files
 
 - `src/App.tsx` — page content and interactions

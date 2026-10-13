@@ -70,7 +70,8 @@ function NotFound() {
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [active, setActive] = useState('home');
-  const [sent, setSent] = useState(false);
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [formError, setFormError] = useState('');
   const [expanded, setExpanded] = useState<string | null>(null);
 
   useEffect(() => {
@@ -96,22 +97,50 @@ export default function App() {
     setMenuOpen(false);
   };
 
-  const submit = (e: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const form = new FormData(e.currentTarget);
-    const name = (form.get('name') ?? '').toString().trim();
-    const email = (form.get('email') ?? '').toString().trim();
-    const message = (form.get('message') ?? '').toString().trim();
+    const formElement = e.currentTarget;
+    const form = new FormData(formElement);
+    const name = form.get('name')?.toString().trim() ?? '';
+    const email = form.get('email')?.toString().trim() ?? '';
+    const message = form.get('message')?.toString().trim() ?? '';
 
-    const subject = encodeURIComponent(`Portfolio enquiry from ${name || 'Website visitor'}`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`
-    );
+    setFormStatus('sending');
 
-    window.location.href = `mailto:williamsatubu99@gmail.com?subject=${subject}&body=${body}`;
-    setSent(true);
-    e.currentTarget.reset();
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/williamsatubu99@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          _replyto: email,
+          _subject: `Portfolio enquiry from ${name}`,
+          message,
+        }),
+      });
+      const result: { success?: boolean | string; message?: string } = await response.json();
+
+      if (!response.ok || (result.success !== true && result.success !== 'true')) {
+        throw new Error(result.message || 'The email service could not send your message.');
+      }
+
+      formElement.reset();
+      setFormError('');
+      setFormStatus('sent');
+    } catch (error) {
+      console.error('Contact form submission failed:', error);
+      setFormError(
+        error instanceof Error
+          ? error.message
+          : 'Please check your connection and try again.'
+      );
+      setFormStatus('error');
+    }
   };
 
   if (window.location.pathname !== '/' && window.location.pathname !== '') {
@@ -579,7 +608,16 @@ export default function App() {
                 </a>
               </div>
             </div>
-            <form className="contact-form" onSubmit={submit}>
+            <form
+              className="contact-form"
+              onSubmit={submit}
+              onChange={() => {
+                if (formStatus !== 'sending') {
+                  setFormError('');
+                  setFormStatus('idle');
+                }
+              }}
+            >
               <label htmlFor="contact-name">
                 Name
                 <input
@@ -611,12 +649,22 @@ export default function App() {
                   placeholder="Tell me a little about your idea..."
                 />
               </label>
-              <button className="button primary" type="submit">
-                {sent ? 'Message ready ✓' : 'Send Message'} <ArrowUpRight size={16} />
+              <button className="button primary" type="submit" disabled={formStatus === 'sending'}>
+                {formStatus === 'sending'
+                  ? 'Sending...'
+                  : formStatus === 'sent'
+                    ? 'Message sent ✓'
+                    : 'Send Message'}{' '}
+                <ArrowUpRight size={16} />
               </button>
               <small className="form-note" aria-live="polite">
-                Your email app will open with the message ready to send to
-                williamsatubu99@gmail.com.
+                {formStatus === 'sent'
+                  ? 'Thanks for reaching out. Your message was sent.'
+                  : formStatus === 'error'
+                    ? `Your message could not be sent: ${formError} Please try again or email williamsatubu99@gmail.com.`
+                    : formStatus === 'sending'
+                      ? 'Sending your message...'
+                      : 'Your message will be sent to williamsatubu99@gmail.com.'}
               </small>
             </form>
           </div>

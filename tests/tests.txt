@@ -20,12 +20,13 @@ Steps:
 3. Review the expanded project details
 Expected: Problem/purpose, what was built, key features, contribution, and technologies are visible.
 
-## Test 3 - Use mobile navigation and contact form validation
+## Test 3 - Use mobile navigation and contact form
 Viewport: mobile
-Covers: mobile navigation, touch-friendly controls, contact form validation
-Description: Verifies the mobile menu works and required contact fields prevent invalid submission.
+Covers: mobile navigation, touch-friendly controls, contact form validation and email submission
+Description: Verifies the mobile menu works, required contact fields prevent invalid submission, and valid messages are sent to the portfolio inbox.
 Steps:
 1. Open the portfolio at mobile width
 2. Open and close the navigation menu
 3. Open the contact form and submit it with required fields empty
-Expected: The mobile menu opens/closes cleanly and the browser prevents an invalid form submission.
+4. Fill in the contact form and submit it
+Expected: The mobile menu opens/closes cleanly, the browser prevents an invalid form submission, and a valid submission shows a sending state followed by confirmation. Confirm FormSubmit activation for the inbox on the first submission.
